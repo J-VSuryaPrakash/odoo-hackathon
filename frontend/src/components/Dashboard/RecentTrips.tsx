@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 
 import {
   Table,
@@ -9,38 +9,19 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { Badge } from "@/components/ui/badge"
+import { TripStatusBadge } from "@/components/Trips/TripStatusBadge"
+import { type Trip } from "@/types/Trips"
 
-const trips = [
-  {
-    id: "TR001",
-    vehicle: "VAN-05",
-    driver: "Alex",
-    status: "On Trip",
-    eta: "45 min",
-  },
-  {
-    id: "TR002",
-    vehicle: "TRK-12",
-    driver: "John",
-    status: "Completed",
-    eta: "-",
-  },
-  {
-    id: "TR003",
-    vehicle: "MINI-08",
-    driver: "Priya",
-    status: "Dispatched",
-    eta: "1h 10m",
-  },
-]
+interface RecentTripsProps {
+  trips: Trip[]
+}
 
-export function RecentTrips() {
+export function RecentTrips({ trips }: RecentTripsProps) {
   return (
     <>
-      <h1 className="text-2xl font-bold pb-2">Recent Trips</h1>
+      <h1 className="pb-2 text-2xl font-bold">Recent Trips</h1>
       <Card>
-        <CardContent>
+        <CardContent className="pt-6">
           <Table>
             <TableHeader>
               <TableRow>
@@ -48,26 +29,39 @@ export function RecentTrips() {
                 <TableHead>Vehicle</TableHead>
                 <TableHead>Driver</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>ETA</TableHead>
+                <TableHead>Route</TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
-              {trips.map((trip) => (
-                <TableRow key={trip.id}>
-                  <TableCell>{trip.id}</TableCell>
+              {trips.length > 0 ? (
+                trips.map((trip) => (
+                  <TableRow key={trip.id}>
+                    <TableCell>{trip.id}</TableCell>
 
-                  <TableCell>{trip.vehicle}</TableCell>
+                    <TableCell>{trip.vehicleName}</TableCell>
 
-                  <TableCell>{trip.driver}</TableCell>
+                    <TableCell>{trip.driverName}</TableCell>
 
-                  <TableCell>
-                    <Badge>{trip.status}</Badge>
+                    <TableCell>
+                      <TripStatusBadge status={trip.status} />
+                    </TableCell>
+
+                    <TableCell>
+                      {trip.origin} to {trip.destination}
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={5}
+                    className="py-8 text-center text-sm text-muted-foreground"
+                  >
+                    No trips available
                   </TableCell>
-
-                  <TableCell>{trip.eta}</TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </CardContent>

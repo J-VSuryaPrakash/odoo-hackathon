@@ -16,5 +16,5 @@ export interface Trip {
   estimatedDistance: number
 
   status: TripStatus
-  createdAt: string
+  createdAt?: string
 }
