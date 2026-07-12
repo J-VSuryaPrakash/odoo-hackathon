@@ -5,7 +5,7 @@ import { createBrowserRouter } from "react-router-dom"
 import DashboardLayout from "@/layout/Dashboard-layout"
 
 import DashboardPage from "@/pages/Dashboard"
-import FleetPage from "@/pages/Fleet"
+import VehiclesPage from "@/pages/Vehicle"
 import DriversPage from "@/pages/Drivers"
 import TripsPage from "@/pages/Trips"
 import MaintenancePage from "@/pages/Maintenance"
@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "Fleet",
-        element: <FleetPage />,
+        element: <VehiclesPage />,
       },
       {
         path: "drivers",
