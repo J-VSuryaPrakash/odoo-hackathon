@@ -3,11 +3,13 @@
 import {
   LayoutDashboard,
   Truck,
+  Car,
   Users,
   Route,
   Wrench,
   Fuel,
   BarChart3,
+  ChartSpline
 } from "lucide-react"
 
 export const sidebarItems = [
@@ -17,9 +19,9 @@ export const sidebarItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "Vehicles",
-    url: "/vehicles",
-    icon: Truck,
+    title: "Fleet",
+    url: "/fleet",
+    icon: Car,
   },
   {
     title: "Drivers",
@@ -42,8 +44,18 @@ export const sidebarItems = [
     icon: Fuel,
   },
   {
+    title: "Analytics",
+    url: "/analytics",
+    icon: ChartSpline,
+  },
+  {
     title: "Reports",
     url: "/reports",
     icon: BarChart3,
   },
+  {
+    title: "Settings",
+    url: "/settings",
+    icon: Wrench,
+  }
 ]

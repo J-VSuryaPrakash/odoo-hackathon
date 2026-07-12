@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
 import { logout } from "@/lib/auth"
+
+import { DashboardHeader } from "@/components/Dashboard/DashboardHeader"
 import { Button } from "@/components/ui/button"
 
 
@@ -25,12 +27,13 @@ export default function DashboardLayout() {
       <AppSidebar />
 
       <SidebarInset>
-        <header className="flex h-16 items-center border-b px-4">
+        <header className="flex h-16 w-full items-center border-b px-4">
           <SidebarTrigger />
-          <Button variant="outline" onClick={handleLogout}>
+          {/* <Button variant="outline" onClick={handleLogout}>
             <LogOut />
             Logout
-          </Button>
+          </Button> */}
+          <DashboardHeader />
         </header>
 
         <main className="p-6">

@@ -1,42 +1,51 @@
 // src/components/sidebar/app-sidebar.tsx
 
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar"
 
 import { sidebarItems } from "./sidebar-data"
 
-export function AppSidebar() {
-  return (
-    <Sidebar>
-      <SidebarHeader>
-        <div className="px-2 py-4">
-          <h2 className="text-xl font-bold">TransitOps</h2>
+import { cn } from "@/lib/utils"
 
-          <p className="text-sm text-muted-foreground">Fleet Management</p>
+export function AppSidebar() {
+  const location = useLocation()
+
+  return (
+    <Sidebar className="border-r bg-background" collapsible="icon">
+      <SidebarHeader className="border-b px-6 py-6">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">TransitOps</h1>
+
+          <p className="mt-1 text-sm text-muted-foreground">Fleet Management</p>
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
-        <SidebarMenu>
-          {sidebarItems.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <NavLink to={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </NavLink>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
+      <SidebarContent className="px-3 py-6">
+        <nav className="space-y-2">
+          {sidebarItems.map((item) => {
+            const isActive = location.pathname === item.url
+
+            return (
+              <NavLink
+                key={item.title}
+                to={item.url}
+                className={cn(
+                  "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
+
+                  "hover:bg-muted",
+
+                  isActive &&
+                    "bg-primary text-primary-foreground shadow-sm hover:bg-primary"
+                )}
+              >
+                <item.icon className="h-5 w-5 shrink-0" />
+
+                <span>{item.title}</span>
+              </NavLink>
+            )
+          })}
+        </nav>
       </SidebarContent>
     </Sidebar>
   )
