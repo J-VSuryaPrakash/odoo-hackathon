@@ -29,10 +29,10 @@ export default function DashboardLayout() {
       <SidebarInset>
         <header className="flex h-16 w-full items-center border-b px-4">
           <SidebarTrigger />
-          {/* <Button variant="outline" onClick={handleLogout}>
+          <Button variant="outline" onClick={handleLogout}>
             <LogOut />
             Logout
-          </Button> */}
+          </Button>
           <DashboardHeader />
         </header>
 

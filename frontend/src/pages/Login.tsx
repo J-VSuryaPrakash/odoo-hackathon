@@ -44,7 +44,7 @@ export default function LoginPage() {
       role,
     })
 
-    setAuth(response.token, response.user.role)
+    setAuth(response.token, response.user.role, response.user.id)
 
     navigate("/")
   }
@@ -90,7 +90,7 @@ export default function LoginPage() {
                 <SelectContent>
                   <SelectItem value="FLEET_MANAGER">Fleet Manager</SelectItem>
 
-                  <SelectItem value="DRIVER">Driver</SelectItem>
+                  <SelectItem value="DISPATCHER">Dispatcher</SelectItem>
 
                   <SelectItem value="SAFETY_OFFICER">Safety Officer</SelectItem>
 
