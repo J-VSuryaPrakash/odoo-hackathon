@@ -1,17 +1,17 @@
 import { useMemo, useState } from "react"
 
-import { vehicles } from "@/components/vehicles/vehicleData"
+
 
 import { VehicleFilters } from "@/components/vehicles/VehicleFilter"
 import { VehicleTable } from "@/components/vehicles/VehicleTable"
 import { VehicleDialog } from "@/components/vehicles/VehicleDailog"
+import { useFleet } from "@/context/FleetContext";
 
 export default function VehiclesPage() {
   const [search, setSearch] = useState("")
-
   const [type, setType] = useState("ALL")
-
   const [status, setStatus] = useState("ALL")
+  const { vehicles, setVehicles } = useFleet()
 
   const filteredVehicles = useMemo(() => {
     return vehicles.filter((vehicle) => {

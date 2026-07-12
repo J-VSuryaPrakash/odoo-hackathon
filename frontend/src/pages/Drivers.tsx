@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react"
 
-import { drivers } from "@/components/drivers/DriverData"
+
 
 import { DriverFilters } from "@/components/drivers/DriverFilter"
 import { DriverTable } from "@/components/drivers/DriverTable"
 import { DriverDialog } from "@/components/drivers/DriverDailog"
 import type { DriverStatus } from "@/types/Driver";
+import { useFleet } from "@/context/FleetContext";
 
 export default function DriversPage() {
   const [search, setSearch] = useState("")
-
+  const { drivers, setDrivers } = useFleet()
   const [driverList, setDriverList] = useState(drivers)
 
   const [status, setStatus] = useState("ALL")

@@ -4,11 +4,16 @@ import { router } from "./router"
 import "./index.css"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { RouterProvider } from "react-router-dom";
+import { FleetProvider } from "./context/FleetContext";
+import { Toaster } from "@/components/ui/sonner";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider>
-      <RouterProvider router={router} />
+      <FleetProvider>
+        <RouterProvider router={router} />
+        <Toaster />
+      </FleetProvider>
     </ThemeProvider>
   </StrictMode>
 )

@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom"
 
 import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar"
 
-import { sidebarItems } from "./sidebar-data"
+import { sidebarItems } from "../../data/SidebarData"
 
 import { cn } from "@/lib/utils"
 
