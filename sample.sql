@@ -60,23 +60,6 @@ CREATE TABLE role_permissions (
 );
 
 -- ==========================================================
--- TABLE: login_history
--- ==========================================================
-CREATE TABLE login_history (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    login_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    logout_time DATETIME,
-    ip_address VARCHAR(50),
-    device VARCHAR(100),
-    success BOOLEAN,
-
-    FOREIGN KEY(user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
-);
-
--- ==========================================================
 -- TABLE: vehicles
 -- ==========================================================
 CREATE TABLE vehicles (
@@ -84,7 +67,6 @@ CREATE TABLE vehicles (
     registration_no VARCHAR(30) NOT NULL UNIQUE,
     vehicle_name VARCHAR(100),
     vehicle_type ENUM('Van','Truck','Mini','Trailer','Other'),
-    manufacturer VARCHAR(50),
     model VARCHAR(50),
     capacity_kg DECIMAL(10,2),
     purchase_cost DECIMAL(12,2),
@@ -98,25 +80,7 @@ CREATE TABLE vehicles (
         'IN_SHOP',
         'RETIRED'
     ) DEFAULT 'AVAILABLE',
-
-    region VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ==========================================================
--- TABLE: vehicle_documents
--- ==========================================================
-CREATE TABLE vehicle_documents (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    vehicle_id INT NOT NULL,
-    document_type VARCHAR(50),
-    document_number VARCHAR(100),
-    expiry_date DATE,
-    file_path VARCHAR(255),
-
-    FOREIGN KEY(vehicle_id)
-        REFERENCES vehicles(id)
-        ON DELETE CASCADE
 );
 
 -- ==========================================================
@@ -131,17 +95,12 @@ CREATE TABLE drivers (
     address TEXT,
     license_expiry DATE,
     joining_date DATE,
-    trip_completion_rate DECIMAL(5,2),
+    safety_score DECIMAL(5,2) DEFAULT 0,
 
     status ENUM(
         'AVAILABLE',
         'ON_TRIP',
         'OFF_DUTY',
-        'SUSPENDED'
-    ) DEFAULT 'AVAILABLE',
-
-    safety_status ENUM(
-        'AVAILABLE',
         'SUSPENDED'
     ) DEFAULT 'AVAILABLE',
 
@@ -206,25 +165,6 @@ CREATE TABLE trips (
 );
 
 -- ==========================================================
--- TABLE: trip_status_history
--- ==========================================================
-CREATE TABLE trip_status_history (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    trip_id INT,
-    status VARCHAR(30),
-    remarks TEXT,
-    changed_by INT,
-    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY(trip_id)
-        REFERENCES trips(id)
-        ON DELETE CASCADE,
-
-    FOREIGN KEY(changed_by)
-        REFERENCES users(id)
-);
-
--- ==========================================================
 -- TABLE: maintenance_logs
 -- ==========================================================
 CREATE TABLE maintenance_logs (
@@ -236,13 +176,9 @@ CREATE TABLE maintenance_logs (
     service_date DATE,
 
     status ENUM(
-        'ACTIVE',
-        'IN_PROGRESS',
-        'COMPLETED'
-    ),
-
-    performed_by VARCHAR(100),
-    next_service_due DATE,
+        'AVAILABLE',
+        'IN_SHOP'
+    ) DEFAULT 'AVAILABLE',
 
     FOREIGN KEY(vehicle_id)
         REFERENCES vehicles(id)
