@@ -8,6 +8,9 @@ import { type Driver } from "@/types/Driver"
 import { type Trip } from "@/types/Trips"
 import { type Vehicle } from "@/types/Vehicle"
 
+import { type Maintenance } from "@/types/maintenance"
+import { maintenances as initialMaintenances } from "@/data/Maintenance"
+
 interface FleetContextType {
   vehicles: Vehicle[]
   setVehicles: React.Dispatch<React.SetStateAction<Vehicle[]>>
@@ -17,6 +20,14 @@ interface FleetContextType {
 
   trips: Trip[]
   setTrips: React.Dispatch<React.SetStateAction<Trip[]>>
+
+  maintenances: Maintenance[]
+
+  createMaintenance: (
+    maintenance: Omit<Maintenance, "id" | "createdAt">
+  ) => void
+
+  completeMaintenance: (maintenanceId: string, actualCost: number) => void
 
   createTrip: (trip: Omit<Trip, "id" | "createdAt">) => void
 
@@ -35,6 +46,62 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
   const [drivers, setDrivers] = useState(initialDrivers)
 
   const [trips, setTrips] = useState(initialTrips)
+
+  const [maintenances, setMaintenances] = useState(initialMaintenances)
+
+  function createMaintenance(
+    maintenanceData: Omit<Maintenance, "id" | "createdAt">
+  ) {
+    const maintenance: Maintenance = {
+      ...maintenanceData,
+
+      id: `M${Date.now()}`,
+
+      createdAt: new Date().toISOString(),
+    }
+
+    setMaintenances((prev) => [...prev, maintenance])
+
+    setVehicles((prev) =>
+      prev.map((vehicle) =>
+        vehicle.id === maintenance.vehicleId
+          ? {
+              ...vehicle,
+              status: "IN_SHOP",
+            }
+          : vehicle
+      )
+    )
+  }
+
+  function completeMaintenance(maintenanceId: string, actualCost: number) {
+    const maintenance = maintenances.find((m) => m.id === maintenanceId)
+
+    if (!maintenance) return
+
+    setMaintenances((prev) =>
+      prev.map((m) =>
+        m.id === maintenanceId
+          ? {
+              ...m,
+              actualCost,
+              status: "COMPLETED",
+            }
+          : m
+      )
+    )
+
+    setVehicles((prev) =>
+      prev.map((vehicle) =>
+        vehicle.id === maintenance.vehicleId
+          ? {
+              ...vehicle,
+              status: "AVAILABLE",
+            }
+          : vehicle
+      )
+    )
+  }
 
   function createTrip(tripData: Omit<Trip, "id" | "createdAt">) {
     const trip: Trip = {
@@ -183,6 +250,10 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
         dispatchTrip,
         completeTrip,
         cancelTrip,
+
+        maintenances,
+        createMaintenance,
+        completeMaintenance,
       }}
     >
       {children}
