@@ -2,13 +2,11 @@
 
 import {
   LayoutDashboard,
-  Truck,
   Car,
   Users,
   Route,
   Wrench,
   Fuel,
-  BarChart3,
   ChartSpline
 } from "lucide-react"
 
@@ -44,14 +42,9 @@ export const sidebarItems = [
     icon: Fuel,
   },
   {
-    title: "Analytics",
-    url: "/analytics",
-    icon: ChartSpline,
-  },
-  {
-    title: "Reports",
+    title: "Reports & Analytics",
     url: "/reports",
-    icon: BarChart3,
+    icon: ChartSpline,
   },
   {
     title: "Settings",

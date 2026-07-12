@@ -9,7 +9,7 @@ import VehiclesPage from "@/pages/Vehicle"
 import DriversPage from "@/pages/Drivers"
 import TripsPage from "@/pages/Trips"
 import MaintenancePage from "@/pages/Maintenance"
-import FuelPage from "@/pages/Fuel"
+import FuelPage from "@/pages/Expenses"
 import ReportsPage from "@/pages/Reports"
 import LoginPage from "@/pages/Login";
 import ProtectedRoute from "./components/auth/ProtectedRoutes";

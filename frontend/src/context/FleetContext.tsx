@@ -8,8 +8,14 @@ import { type Driver } from "@/types/Driver"
 import { type Trip } from "@/types/Trips"
 import { type Vehicle } from "@/types/Vehicle"
 
+import { type Expense } from "@/types/expenses"
+import { expenses as initialExpenses } from "@/data/Expenses"
+
 import { type Maintenance } from "@/types/maintenance"
 import { maintenances as initialMaintenances } from "@/data/Maintenance"
+
+import { type FuelLog } from "@/types/fuelLogs"
+import { fuelLogs as initialFuelLogs } from "@/data/FuelLogs"
 
 interface FleetContextType {
   vehicles: Vehicle[]
@@ -26,6 +32,14 @@ interface FleetContextType {
   createMaintenance: (
     maintenance: Omit<Maintenance, "id" | "createdAt">
   ) => void
+
+  expenses: Expense[]
+
+  fuelLogs: FuelLog[]
+
+  createFuelLog: (fuelLog: Omit<FuelLog, "id">) => void
+
+  createExpense: (expense: Omit<Expense, "id">) => void
 
   completeMaintenance: (maintenanceId: string, actualCost: number) => void
 
@@ -48,6 +62,28 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
   const [trips, setTrips] = useState(initialTrips)
 
   const [maintenances, setMaintenances] = useState(initialMaintenances)
+
+  const [expenses, setExpenses] = useState(initialExpenses)
+
+  const [fuelLogs, setFuelLogs] = useState(initialFuelLogs)
+
+  function createFuelLog(fuelLogData: Omit<FuelLog, "id">) {
+    const fuelLog: FuelLog = {
+      ...fuelLogData,
+      id: `FL${Date.now()}`,
+    }
+
+    setFuelLogs((prev) => [...prev, fuelLog])
+  }
+
+  function createExpense(expenseData: Omit<Expense, "id">) {
+    const expense: Expense = {
+      ...expenseData,
+      id: `EXP${Date.now()}`,
+    }
+
+    setExpenses((prev) => [...prev, expense])
+  }
 
   function createMaintenance(
     maintenanceData: Omit<Maintenance, "id" | "createdAt">
@@ -254,6 +290,11 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
         maintenances,
         createMaintenance,
         completeMaintenance,
+
+        expenses,
+        createExpense,
+        fuelLogs,
+        createFuelLog,
       }}
     >
       {children}
