@@ -1,28 +1,25 @@
 import { useMemo, useState } from "react"
 
-
-
+import { DriverDialog } from "@/components/drivers/DriverDailog"
 import { DriverFilters } from "@/components/drivers/DriverFilter"
 import { DriverTable } from "@/components/drivers/DriverTable"
-import { DriverDialog } from "@/components/drivers/DriverDailog"
-import type { DriverStatus } from "@/types/Driver";
-import { useFleet } from "@/context/FleetContext";
+import { useFleet } from "@/context/FleetContext"
+import type { DriverStatus } from "@/types/Driver"
 
 export default function DriversPage() {
   const [search, setSearch] = useState("")
   const { drivers, setDrivers } = useFleet()
-  const [driverList, setDriverList] = useState(drivers)
 
   const [status, setStatus] = useState("ALL")
 
   function updateDriverStatus(driverId: string, status: DriverStatus) {
-    setDriverList((prev) =>
+    setDrivers((prev) =>
       prev.map((driver) =>
         driver.id === driverId ? { ...driver, status } : driver
       )
     )
   }
-  
+
   const filteredDrivers = useMemo(() => {
     return drivers.filter((driver) => {
       const matchesSearch =
@@ -33,7 +30,7 @@ export default function DriversPage() {
 
       return matchesSearch && matchesStatus
     })
-  }, [search, status])
+  }, [drivers, search, status])
 
   return (
     <div className="space-y-6">

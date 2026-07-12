@@ -24,6 +24,7 @@ interface FleetContextType {
 
   drivers: Driver[]
   setDrivers: React.Dispatch<React.SetStateAction<Driver[]>>
+  createDriver: (driver: Omit<Driver, "id">) => void
 
   trips: Trip[]
   setTrips: React.Dispatch<React.SetStateAction<Trip[]>>
@@ -75,6 +76,15 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
     }
 
     setVehicles((prev) => [...prev, vehicle])
+  }
+
+  function createDriver(driverData: Omit<Driver, "id">) {
+    const driver: Driver = {
+      ...driverData,
+      id: `D${Date.now()}`,
+    }
+
+    setDrivers((prev) => [...prev, driver])
   }
 
   function createFuelLog(fuelLogData: Omit<FuelLog, "id">) {
@@ -289,6 +299,7 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
 
         drivers,
         setDrivers,
+        createDriver,
 
         trips,
         setTrips,
