@@ -11,11 +11,21 @@ import TripsPage from "@/pages/Trips"
 import MaintenancePage from "@/pages/Maintenance"
 import FuelPage from "@/pages/Fuel"
 import ReportsPage from "@/pages/Reports"
+import LoginPage from "@/pages/Login";
+import ProtectedRoute from "./components/auth/ProtectedRoutes";
 
 export const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
     path: "/",
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
