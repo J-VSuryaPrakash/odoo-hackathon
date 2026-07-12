@@ -9,10 +9,11 @@ import VehiclesPage from "@/pages/Vehicle"
 import DriversPage from "@/pages/Drivers"
 import TripsPage from "@/pages/Trips"
 import MaintenancePage from "@/pages/Maintenance"
-import FuelPage from "@/pages/Expenses"
-import ReportsPage from "@/pages/Reports"
 import LoginPage from "@/pages/Login";
 import ProtectedRoute from "./components/auth/ProtectedRoutes";
+import ExpensesPage from "@/pages/Expenses";
+import AnalyticsPage from "@/pages/Analytics";
+import Settings from "./pages/Settings";
 
 export const router = createBrowserRouter([
   {
@@ -48,13 +49,17 @@ export const router = createBrowserRouter([
         element: <MaintenancePage />,
       },
       {
-        path: "fuel",
-        element: <FuelPage />,
+        path: "fuel-expenses",
+        element: <ExpensesPage />,
       },
       {
         path: "reports",
-        element: <ReportsPage />,
+        element: <AnalyticsPage />,
       },
+      {
+        path: "settings",
+        element: <Settings />,
+      }
     ],
   },
 ])
