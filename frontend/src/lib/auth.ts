@@ -7,7 +7,7 @@ const USER_KEY = "transitops_user"
 export function setAuth(token: string, role: UserRole, user: string) {
   localStorage.setItem(TOKEN_KEY, token)
   localStorage.setItem(ROLE_KEY, role)
-  localStorage.setItem(USER_KEY, user)
+  localStorage.setItem(USER_KEY, JSON.stringify(user))
 }
 
 export function getToken() {

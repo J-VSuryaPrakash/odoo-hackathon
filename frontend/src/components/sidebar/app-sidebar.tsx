@@ -3,13 +3,14 @@
 import { NavLink, useLocation } from "react-router-dom"
 
 import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar"
-
+import { getRole } from "@/lib/auth"
 import { sidebarItems } from "../../data/SidebarData"
 
 import { cn } from "@/lib/utils"
 
 export function AppSidebar() {
   const location = useLocation()
+  const role = getRole()
 
   return (
     <Sidebar className="border-r bg-background" collapsible="icon">
@@ -23,7 +24,7 @@ export function AppSidebar() {
 
       <SidebarContent className="px-3 py-6">
         <nav className="space-y-2">
-          {sidebarItems.map((item) => {
+          {sidebarItems.filter((item) => item.allowedRoles.includes(role as any)).map((item) => {
             const isActive = location.pathname === item.url
 
             return (

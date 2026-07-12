@@ -1,5 +1,5 @@
 export type UserRole =
-  "FLEET_MANAGER" | "DRIVER" | "SAFETY_OFFICER" | "FINANCIAL_ANALYST"
+  "FLEET_MANAGER" | "DRIVER" | "SAFETY_OFFICER" | "FINANCIAL_ANALYST" | "DISPATCHER" 
 
 export interface User {
   id: string
