@@ -9,6 +9,8 @@ import { expenseRouter } from './modules/expense/expense.routes.js';
 import { fuelLogRouter } from './modules/fuellog/fuellog.routes.js';
 import { maintenanceLogRouter } from './modules/maintenancelog/maintenancelog.routes.js';
 import { permissionRouter } from './modules/permission/permission.routes.js';
+import { rolePermissionRouter } from './modules/rolepermissions/rolepermissions.routes.js';
+import { roleRouter } from './modules/roles/roles.routes.js';
 import { settingsRouter } from './modules/settings/settings.routes.js';
 import { tripRouter } from './modules/trip/trip.routes.js';
 import { usersRouter } from './modules/users/users.routes.js';
@@ -30,6 +32,8 @@ app.use('/api/v1/maintenance-logs', maintenanceLogRouter);
 app.use('/api/v1/fuel-logs', fuelLogRouter);
 app.use('/api/v1/expenses', expenseRouter);
 app.use('/api/v1/permissions', permissionRouter);
+app.use('/api/v1/roles', roleRouter);
+app.use('/api/v1/role-permissions', rolePermissionRouter);
 app.use('/api/v1/settings', settingsRouter);
 
 app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
