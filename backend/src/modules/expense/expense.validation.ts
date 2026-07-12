@@ -1,19 +1,16 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
-const notificationSchema = z.object({
-    title: z.string().min(1, 'Title is required'),
-    category: z.string().optional(),
-    departmentId: z.number().int().optional(),
-    status: z.string().optional().default('open'),
-    priority: z.number().default(0),
-    startsAt: z.coerce.date().optional(),
-    endsAt: z.coerce.date().optional(),
-    isScrolling: z.boolean().default(false),
-    isActive: z.boolean().default(true)
-})
+const expenseSchema = z.object({
+  tripId: z.coerce.number().int().positive().optional(),
+  vehicleId: z.coerce.number().int().positive().optional(),
+  expenseType: z.enum(['TOLL', 'REPAIR', 'PARKING', 'MISC', 'PENALTY']).optional(),
+  amount: z.coerce.number().positive('Amount must be greater than 0').optional(),
+  remarks: z.string().optional(),
+  expenseDate: z.coerce.date().optional()
+});
 
-export const createNotificationSchema = notificationSchema;
-export const updateNotificationSchema = notificationSchema.partial();
+export const createExpenseSchema = expenseSchema;
+export const updateExpenseSchema = expenseSchema.partial();
 
-export type createNotificationInput = z.infer<typeof createNotificationSchema>;
-export type updateNotificationInput = z.infer<typeof updateNotificationSchema>;
+export type CreateExpenseInput = z.infer<typeof createExpenseSchema>;
+export type UpdateExpenseInput = z.infer<typeof updateExpenseSchema>;

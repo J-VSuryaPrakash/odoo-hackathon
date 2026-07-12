@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 const fuelLogSchema = z.object({
-  vehicleId: z.string().uuid("Invalid vehicle ID"),
-  tripId: z.string().uuid("Invalid trip ID").optional(),
-  liters: z.number().positive("Liters must be greater than 0"),
-  cost: z.number().positive("Cost must be greater than 0"),
-  date: z.coerce.date().default(() => new Date()),
+  vehicleId: z.coerce.number().int().positive().optional(),
+  tripId: z.coerce.number().int().positive().optional(),
+  liters: z.coerce.number().positive("Liters must be greater than 0").optional(),
+  pricePerLiter: z.coerce.number().positive("Price per liter must be greater than 0").optional(),
+  amount: z.coerce.number().positive("Amount must be greater than 0").optional(),
+  fuelStation: z.string().optional(),
+  odometer: z.coerce.number().int().min(0).optional(),
+  date: z.coerce.date().optional(),
 });
 
 export const createFuelLogSchema = fuelLogSchema;
