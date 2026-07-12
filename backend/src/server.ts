@@ -1,15 +1,26 @@
-import express from "express";
+import 'dotenv/config'
+import app from './app.js';
+import { prisma } from './DB/prisma.js';
 
-const app = express();
+const PORT = process.env.PORT || 8080;
 
-app.use(express.json());
+const connnectDB = async () => {
+	try {
+		await prisma.$connect();
+		console.log("Database connected successfully");
 
-app.get("/", (req, res) => {
-  res.send("Hello TypeScript!");
-});
+		app.listen(PORT, () => {
+			console.log(`Server running on port ${PORT}`);
+		});
+	} catch (error) {
+		console.error("Database connection failed:", error);
+		process.exit(1);
+	}
+};
 
-const PORT = 3000;
+connnectDB();
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+process.on("SIGINT", async () => {
+	await prisma.$disconnect();
+	process.exit(0);
 });
