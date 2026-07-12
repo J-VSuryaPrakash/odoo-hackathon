@@ -8,18 +8,19 @@ import { type Driver } from "@/types/Driver"
 import { type Trip } from "@/types/Trips"
 import { type Vehicle } from "@/types/Vehicle"
 
-import { type Expense } from "@/types/expenses"
 import { expenses as initialExpenses } from "@/data/Expenses"
+import { type Expense } from "@/types/expenses"
 
-import { type Maintenance } from "@/types/maintenance"
 import { maintenances as initialMaintenances } from "@/data/Maintenance"
+import { type Maintenance } from "@/types/maintenance"
 
-import { type FuelLog } from "@/types/fuelLogs"
 import { fuelLogs as initialFuelLogs } from "@/data/FuelLogs"
+import { type FuelLog } from "@/types/fuelLogs"
 
 interface FleetContextType {
   vehicles: Vehicle[]
   setVehicles: React.Dispatch<React.SetStateAction<Vehicle[]>>
+  createVehicle: (vehicle: Omit<Vehicle, "id">) => void
 
   drivers: Driver[]
   setDrivers: React.Dispatch<React.SetStateAction<Driver[]>>
@@ -66,6 +67,15 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
   const [expenses, setExpenses] = useState(initialExpenses)
 
   const [fuelLogs, setFuelLogs] = useState(initialFuelLogs)
+
+  function createVehicle(vehicleData: Omit<Vehicle, "id">) {
+    const vehicle: Vehicle = {
+      ...vehicleData,
+      id: `V${Date.now()}`,
+    }
+
+    setVehicles((prev) => [...prev, vehicle])
+  }
 
   function createFuelLog(fuelLogData: Omit<FuelLog, "id">) {
     const fuelLog: FuelLog = {
@@ -275,6 +285,7 @@ export function FleetProvider({ children }: { children: React.ReactNode }) {
       value={{
         vehicles,
         setVehicles,
+        createVehicle,
 
         drivers,
         setDrivers,

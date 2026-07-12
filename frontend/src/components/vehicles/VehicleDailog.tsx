@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -8,6 +10,7 @@ import {
 } from "@/components/ui/dialog"
 
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 import {
   Select,
@@ -17,48 +20,161 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+import { useFleet } from "@/context/FleetContext"
+
 export function VehicleDialog() {
+  const { createVehicle } = useFleet()
+
+  const [open, setOpen] = useState(false)
+  const [registrationNo, setRegistrationNo] = useState("")
+  const [name, setName] = useState("")
+  const [type, setType] = useState("")
+  const [maxLoadCapacity, setMaxLoadCapacity] = useState("")
+  const [odometer, setOdometer] = useState("")
+  const [acquisitionCost, setAcquisitionCost] = useState("")
+  const [status, setStatus] = useState<
+    "AVAILABLE" | "ON_TRIP" | "IN_SHOP" | "RETIRED"
+  >("AVAILABLE")
+
+  function resetForm() {
+    setRegistrationNo("")
+    setName("")
+    setType("")
+    setMaxLoadCapacity("")
+    setOdometer("")
+    setAcquisitionCost("")
+    setStatus("AVAILABLE")
+  }
+
+  function handleSave() {
+    if (
+      !registrationNo ||
+      !name ||
+      !type ||
+      !maxLoadCapacity ||
+      !odometer ||
+      !acquisitionCost
+    ) {
+      return
+    }
+
+    createVehicle({
+      registrationNo,
+      name,
+      type,
+      maxLoadCapacity: Number(maxLoadCapacity),
+      odometer: Number(odometer),
+      acquisitionCost: Number(acquisitionCost),
+      status,
+    })
+
+    resetForm()
+    setOpen(false)
+  }
+
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen)
+
+        if (!nextOpen) {
+          resetForm()
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button>Add Vehicle</Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-150">
         <DialogHeader>
           <DialogTitle>Add Vehicle</DialogTitle>
         </DialogHeader>
 
         <div className="grid gap-4">
-          <Input placeholder="Registration Number" />
+          <div className="space-y-2">
+            <Label>Registration Number</Label>
+            <Input
+              value={registrationNo}
+              onChange={(event) => setRegistrationNo(event.target.value)}
+              placeholder="AP39AB1234"
+            />
+          </div>
 
-          <Input placeholder="Vehicle Name" />
+          <div className="space-y-2">
+            <Label>Vehicle Name</Label>
+            <Input
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Van-05"
+            />
+          </div>
 
-          <Input placeholder="Vehicle Type" />
+          <div className="space-y-2">
+            <Label>Vehicle Type</Label>
+            <Input
+              value={type}
+              onChange={(event) => setType(event.target.value)}
+              placeholder="Van"
+            />
+          </div>
 
-          <Input type="number" placeholder="Maximum Load Capacity" />
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="space-y-2">
+              <Label>Maximum Load Capacity</Label>
+              <Input
+                type="number"
+                value={maxLoadCapacity}
+                onChange={(event) => setMaxLoadCapacity(event.target.value)}
+                placeholder="500"
+              />
+            </div>
 
-          <Input type="number" placeholder="Odometer" />
+            <div className="space-y-2">
+              <Label>Odometer</Label>
+              <Input
+                type="number"
+                value={odometer}
+                onChange={(event) => setOdometer(event.target.value)}
+                placeholder="25000"
+              />
+            </div>
 
-          <Input type="number" placeholder="Acquisition Cost" />
+            <div className="space-y-2">
+              <Label>Acquisition Cost</Label>
+              <Input
+                type="number"
+                value={acquisitionCost}
+                onChange={(event) => setAcquisitionCost(event.target.value)}
+                placeholder="1200000"
+              />
+            </div>
+          </div>
 
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
+          <div className="space-y-2">
+            <Label>Status</Label>
+            <Select
+              value={status}
+              onValueChange={(value) => setStatus(value as typeof status)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
 
-            <SelectContent>
-              <SelectItem value="AVAILABLE">Available</SelectItem>
+              <SelectContent>
+                <SelectItem value="AVAILABLE">Available</SelectItem>
 
-              <SelectItem value="ON_TRIP">On Trip</SelectItem>
+                <SelectItem value="ON_TRIP">On Trip</SelectItem>
 
-              <SelectItem value="IN_SHOP">In Shop</SelectItem>
+                <SelectItem value="IN_SHOP">In Shop</SelectItem>
 
-              <SelectItem value="RETIRED">Retired</SelectItem>
-            </SelectContent>
-          </Select>
+                <SelectItem value="RETIRED">Retired</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-          <Button>Save Vehicle</Button>
+          <Button onClick={handleSave}>Save Vehicle</Button>
         </div>
       </DialogContent>
     </Dialog>

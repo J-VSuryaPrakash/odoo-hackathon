@@ -1,17 +1,15 @@
 import { useMemo, useState } from "react"
 
-
-
+import { VehicleDialog } from "@/components/vehicles/VehicleDailog"
 import { VehicleFilters } from "@/components/vehicles/VehicleFilter"
 import { VehicleTable } from "@/components/vehicles/VehicleTable"
-import { VehicleDialog } from "@/components/vehicles/VehicleDailog"
-import { useFleet } from "@/context/FleetContext";
+import { useFleet } from "@/context/FleetContext"
 
 export default function VehiclesPage() {
   const [search, setSearch] = useState("")
   const [type, setType] = useState("ALL")
   const [status, setStatus] = useState("ALL")
-  const { vehicles, setVehicles } = useFleet()
+  const { vehicles } = useFleet()
 
   const filteredVehicles = useMemo(() => {
     return vehicles.filter((vehicle) => {
@@ -25,7 +23,7 @@ export default function VehiclesPage() {
 
       return matchesSearch && matchesType && matchesStatus
     })
-  }, [search, type, status])
+  }, [vehicles, search, type, status])
 
   return (
     <div className="space-y-6">
